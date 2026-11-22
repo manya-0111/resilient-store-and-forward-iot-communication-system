@@ -1,0 +1,170 @@
+{
+  "model_type": "NETWORK_QUALITY",
+  "algorithm": "RandomForestClassifier",
+  "model_version": "rf-clf-sim-v1.0.0",
+  "target_link": "NODE2_NODE3_WIFI",
+  "data_source": "SIMULATED",
+  "dataset_version": "v1.0.0-sim",
+  "feature_names": [
+    "rssi",
+    "rssi_variation",
+    "packet_loss_ratio",
+    "ack_latency_ms",
+    "retry_count",
+    "queue_depth"
+  ],
+  "classes": [
+    "GOOD",
+    "MODERATE",
+    "POOR"
+  ],
+  "cleaning_summary": {
+    "initial_rows": 4496,
+    "cleaned_rows": 4496,
+    "dropped_rows": 0,
+    "sessions": 40,
+    "target_link": "NODE2_NODE3_WIFI",
+    "data_source": "SIMULATED"
+  },
+  "eda_summary": {
+    "class_counts": {
+      "GOOD": 1427,
+      "MODERATE": 601,
+      "POOR": 2468
+    },
+    "class_proportions": {
+      "GOOD": 0.3174,
+      "MODERATE": 0.1337,
+      "POOR": 0.5489
+    }
+  },
+  "training_config": {
+    "seed": 42,
+    "cv_strategy": "GroupKFold(n_splits=5) by session_num",
+    "best_params": {
+      "clf__class_weight": {
+        "GOOD": 1.0,
+        "MODERATE": 1.25,
+        "POOR": 1.65
+      },
+      "clf__max_depth": 8,
+      "clf__min_samples_leaf": 2,
+      "clf__n_estimators": 200
+    },
+    "best_cv_weighted_score": 0.933,
+    "train_rows": 3375,
+    "train_sessions": 30,
+    "test_rows": 1121,
+    "test_sessions": 10
+  },
+  "evaluation": {
+    "model_type": "NETWORK_QUALITY",
+    "link_hop": "NODE2_NODE3_WIFI",
+    "data_source": "SIMULATED",
+    "model_version": "rf-clf-sim-v1.0.0",
+    "accuracy": 0.9492,
+    "macro_f1": 0.9226,
+    "weighted_f1": 0.9482,
+    "confusion_matrix": {
+      "labels": [
+        "GOOD",
+        "MODERATE",
+        "POOR"
+      ],
+      "matrix": [
+        [
+          348,
+          7,
+          0
+        ],
+        [
+          8,
+          133,
+          28
+        ],
+        [
+          0,
+          14,
+          583
+        ]
+      ]
+    },
+    "per_class": {
+      "GOOD": {
+        "precision": 0.9775,
+        "recall": 0.9803,
+        "f1": 0.9789,
+        "support": 355
+      },
+      "MODERATE": {
+        "precision": 0.8636,
+        "recall": 0.787,
+        "f1": 0.8235,
+        "support": 169
+      },
+      "POOR": {
+        "precision": 0.9542,
+        "recall": 0.9765,
+        "f1": 0.9652,
+        "support": 597
+      }
+    },
+    "sample_count": 1121,
+    "split_method": "Session-grouped holdout (Sessions 1-30 GroupKFold-5 CV / Sessions 31-40 unseen test)",
+    "evaluated_at": "2026-11-21T21:54:10.972684+00:00",
+    "note": "Evaluated strictly on unseen SIMULATED test sessions (31-40). Does NOT represent real ESP32 hardware performance."
+  },
+  "baseline_comparison": {
+    "baseline_name": "Deterministic Rule-Based Threshold Heuristic",
+    "accuracy": 0.7244,
+    "macro_f1": 0.638,
+    "poor_recall": 0.9313,
+    "confusion_matrix": [
+      [
+        127,
+        228,
+        0
+      ],
+      [
+        0,
+        129,
+        40
+      ],
+      [
+        0,
+        41,
+        556
+      ]
+    ],
+    "rf_minus_baseline_accuracy": 0.2248,
+    "rf_minus_baseline_macro_f1": 0.2845,
+    "rf_minus_baseline_poor_recall": 0.0452
+  },
+  "feature_importances": [
+    {
+      "feature": "ack_latency_ms",
+      "importance": 0.3183
+    },
+    {
+      "feature": "rssi",
+      "importance": 0.2633
+    },
+    {
+      "feature": "packet_loss_ratio",
+      "importance": 0.1954
+    },
+    {
+      "feature": "retry_count",
+      "importance": 0.127
+    },
+    {
+      "feature": "queue_depth",
+      "importance": 0.0755
+    },
+    {
+      "feature": "rssi_variation",
+      "importance": 0.0205
+    }
+  ],
+  "trained_at": "2026-11-21T21:54:10.972684+00:00"
+}

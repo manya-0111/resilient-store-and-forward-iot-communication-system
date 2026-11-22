@@ -1,0 +1,148 @@
+{
+  "row_count": 4496,
+  "session_count": 40,
+  "class_counts": {
+    "GOOD": 1427,
+    "MODERATE": 601,
+    "POOR": 2468
+  },
+  "class_proportions": {
+    "GOOD": 0.3174,
+    "MODERATE": 0.1337,
+    "POOR": 0.5489
+  },
+  "per_class_feature_summary": {
+    "GOOD": {
+      "rssi": {
+        "mean": -64.713,
+        "std": 3.022,
+        "p10": -68.61,
+        "median": -64.46,
+        "p90": -61.232
+      },
+      "rssi_variation": {
+        "mean": 3.454,
+        "std": 2.07,
+        "p10": 1.05,
+        "median": 3.06,
+        "p90": 6.524
+      },
+      "packet_loss_ratio": {
+        "mean": 0.054,
+        "std": 0.041,
+        "p10": 0.013,
+        "median": 0.044,
+        "p90": 0.109
+      },
+      "ack_latency_ms": {
+        "mean": 86.759,
+        "std": 33.53,
+        "p10": 42.56,
+        "median": 86.7,
+        "p90": 129.6
+      },
+      "retry_count": {
+        "mean": 0.209,
+        "std": 0.46,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 1.0
+      },
+      "queue_depth": {
+        "mean": 1.874,
+        "std": 1.91,
+        "p10": 0.0,
+        "median": 1.0,
+        "p90": 5.0
+      }
+    },
+    "MODERATE": {
+      "rssi": {
+        "mean": -71.329,
+        "std": 3.608,
+        "p10": -75.76,
+        "median": -71.28,
+        "p90": -66.81
+      },
+      "rssi_variation": {
+        "mean": 5.068,
+        "std": 2.999,
+        "p10": 1.54,
+        "median": 4.64,
+        "p90": 9.19
+      },
+      "packet_loss_ratio": {
+        "mean": 0.117,
+        "std": 0.064,
+        "p10": 0.042,
+        "median": 0.106,
+        "p90": 0.204
+      },
+      "ack_latency_ms": {
+        "mean": 213.955,
+        "std": 74.224,
+        "p10": 102.8,
+        "median": 223.3,
+        "p90": 301.7
+      },
+      "retry_count": {
+        "mean": 0.854,
+        "std": 0.745,
+        "p10": 0.0,
+        "median": 1.0,
+        "p90": 2.0
+      },
+      "queue_depth": {
+        "mean": 4.478,
+        "std": 3.126,
+        "p10": 1.0,
+        "median": 4.0,
+        "p90": 10.0
+      }
+    },
+    "POOR": {
+      "rssi": {
+        "mean": -88.886,
+        "std": 12.438,
+        "p10": -105.663,
+        "median": -86.025,
+        "p90": -73.39
+      },
+      "rssi_variation": {
+        "mean": 6.432,
+        "std": 3.878,
+        "p10": 1.937,
+        "median": 5.67,
+        "p90": 12.1
+      },
+      "packet_loss_ratio": {
+        "mean": 0.532,
+        "std": 0.311,
+        "p10": 0.142,
+        "median": 0.458,
+        "p90": 0.941
+      },
+      "ack_latency_ms": {
+        "mean": 792.751,
+        "std": 492.638,
+        "p10": 230.77,
+        "median": 633.85,
+        "p90": 1468.3
+      },
+      "retry_count": {
+        "mean": 2.778,
+        "std": 1.279,
+        "p10": 1.0,
+        "median": 3.0,
+        "p90": 5.0
+      },
+      "queue_depth": {
+        "mean": 13.865,
+        "std": 8.226,
+        "p10": 4.0,
+        "median": 11.0,
+        "p90": 27.0
+      }
+    }
+  }
+}

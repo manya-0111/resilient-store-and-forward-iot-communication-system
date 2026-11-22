@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Resilient Store-and-Forward IoT Communication System",
+  "description": "End-to-end monitoring, AES-128-GCM security, hybrid Wi-Fi/LoRa fallback, persistent store-and-forward queue management, and ML analytics dashboard for a three-node ESP32 IoT architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

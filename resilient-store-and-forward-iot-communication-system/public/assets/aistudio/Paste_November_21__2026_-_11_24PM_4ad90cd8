@@ -1,0 +1,1150 @@
+# PROJECT: RESILIENT STORE-AND-FORWARD IoT COMMUNICATION SYSTEM
+
+Act as a senior full-stack IoT software architect, Python backend developer, embedded systems engineer, machine learning engineer, database designer, and professional dashboard UI/UX developer.
+
+Build a COMPLETE, FULLY FUNCTIONAL, END-TO-END IoT monitoring and management dashboard for my project:
+
+**RESILIENT STORE-AND-FORWARD IoT COMMUNICATION SYSTEM**
+
+I am providing a project reference PDF. You MUST carefully study the entire PDF and implement the dashboard strictly according to its architecture, communication protocols, node responsibilities, security mechanisms, storage mechanisms, machine learning requirements, test cases, and implementation plan.
+
+The PDF is the SINGLE SOURCE OF TRUTH.
+
+Do not introduce unrelated features, change the architecture, or omit any functionality specified in the PDF.
+
+The final result must have a fully integrated frontend and backend, a working database, functional API endpoints, live data updates, interactive controls, charts, simulation capabilities, and a professional demonstration mode.
+
+Do not just generate a static UI or frontend prototype. Implement actual application logic.
+
+---
+
+# 1. SYSTEM ARCHITECTURE
+
+Implement the following exact architecture:
+
+NODE 1 – SENSOR AND TRANSMITTER
+- ESP32.
+- Raindrop sensor.
+- DHT11 temperature and humidity sensor.
+- Priority manager.
+- Packet ID and sequence generator.
+- AES-128-GCM encryption.
+- Wi-Fi communication.
+- LoRa fallback communication.
+- LittleFS persistent offline queue.
+- ACK verification.
+- Retry and timeout management.
+
+NODE 2 – CENTRAL GATEWAY
+- ESP32.
+- Wi-Fi receiver.
+- Bidirectional LoRa transceiver.
+- Packet validation.
+- Duplicate packet detection.
+- 16 GB microSD persistent storage.
+- ACK manager.
+- Packet forwarding manager.
+- Node 3 pending queue.
+- Network performance monitoring.
+
+NODE 3 – DESTINATION RECEIVER
+- ESP32.
+- Wi-Fi receiver.
+- Packet validation.
+- AES-128-GCM authentication and decryption.
+- LCD reading display.
+- ACK transmission to Node 2.
+- Authenticated sensor data forwarding to Python analytics.
+
+PYTHON SERVER
+- Flask REST API.
+- SQLite database.
+- Network performance ML model.
+- Sensor anomaly detection ML model.
+- Streamlit dashboard.
+
+The Node 1 → Node 2 and Node 2 → Node 3 links MUST operate independently.
+
+Node 2 must be able to receive and persist packets even when Node 3 is offline.
+
+---
+
+# 2. TECHNOLOGY STACK
+
+Use the following technologies:
+
+Frontend:
+- React.
+- TypeScript.
+- Modern CSS.
+- Responsive dashboard design.
+- Recharts or an equivalent charting library.
+- Lucide icons.
+
+Backend:
+- Python.
+- Flask REST API.
+- SQLite database.
+- Pandas.
+- NumPy.
+- Scikit-learn.
+- Joblib.
+
+Machine Learning:
+- Random Forest Classifier for network quality classification.
+- Isolation Forest for sensor anomaly detection.
+- Rule-based baseline for network quality comparison.
+
+Communication:
+- HTTP REST APIs for ESP32-to-Python integration.
+- JSON packet metadata.
+- Wi-Fi and LoRa communication status reporting.
+
+Hardware integration:
+- ESP32 Node 1, Node 2 and Node 3.
+- The actual ESP32 firmware will communicate with the Python backend through the specified API endpoints.
+
+IMPORTANT:
+The React frontend must communicate with the Flask backend. Do not create separate disconnected mock frontends and backends.
+
+The database must persist records even after restarting the application.
+
+---
+
+# 3. DASHBOARD DESIGN AND NAVIGATION
+
+Create a professional, modern, attractive, high-quality IoT dashboard.
+
+Design requirements:
+- Dark navy and blue technology-inspired theme.
+- Clean white or dark content panels.
+- Professional typography.
+- Consistent spacing.
+- Rounded cards.
+- Subtle shadows.
+- Interactive graphs.
+- Clear status indicators.
+- Responsive desktop and tablet layout.
+- Sidebar navigation.
+- Top navigation bar.
+- Live connection indicator.
+- Current date and time.
+- Notification and alert panel.
+
+Dashboard title:
+
+RESILIENT IoT MONITORING SYSTEM
+
+Subtitle:
+
+Intelligent Store-and-Forward Communication | Secure | Reliable | Fault-Tolerant
+
+Create the following navigation sections:
+
+1. Overview
+2. Live Sensor Monitoring
+3. Node Architecture
+4. Communication Monitoring
+5. Packet Management
+6. Storage Management
+7. Security Monitoring
+8. ML Analytics
+9. Historical Data
+10. System Testing
+11. Hardware Status
+12. Settings and API Status
+
+Every navigation item must open a fully functional page.
+
+---
+
+# 4. OVERVIEW DASHBOARD
+
+Create the main dashboard with real-time information.
+
+Display the following summary cards:
+
+- Total Packets Created.
+- Packets Received by Node 2.
+- Packets Delivered to Node 3.
+- Pending Packets.
+- Duplicate Packets.
+- Failed Authentication Count.
+- Active Communication Mode.
+- Overall System Status.
+
+Show live sensor cards:
+
+TEMPERATURE:
+- Current temperature in °C.
+- Temperature trend.
+- Last updated timestamp.
+
+HUMIDITY:
+- Current humidity in %.
+- Humidity trend.
+- Last updated timestamp.
+
+RAINDROP SENSOR:
+- Raw analog sensor value.
+- Rain category: DRY / NORMAL / HEAVY.
+- Rain priority.
+- Alert status.
+
+Display system status for all three nodes:
+
+NODE 1:
+- ESP32 connection.
+- Sensor status.
+- Wi-Fi status.
+- LoRa status.
+- LittleFS status.
+- Pending local packets.
+
+NODE 2:
+- ESP32 connection.
+- Wi-Fi receiver.
+- LoRa transceiver.
+- microSD status.
+- Pending Node 3 packets.
+- Gateway status.
+
+NODE 3:
+- ESP32 connection.
+- Wi-Fi receiver.
+- AES-GCM status.
+- LCD status.
+- Last authenticated reading.
+- ACK status.
+
+Show a complete system architecture diagram:
+
+Node 1 → Node 2 → Node 3 → Python Analytics Dashboard.
+
+Include the communication links and the corresponding ACK paths.
+
+Use animated packet indicators to demonstrate packet movement.
+
+Show the difference between:
+- Gateway accepted.
+- Destination delivered.
+
+A Node 1 ACK must NEVER be interpreted as successful delivery to Node 3.
+
+---
+
+# 5. LIVE SENSOR MONITORING
+
+Create a dedicated sensor monitoring page.
+
+Display:
+
+- Temperature.
+- Humidity.
+- Raw raindrop sensor reading.
+- Rain classification.
+- Priority classification.
+- Last sensor update.
+
+Use interactive historical charts for:
+- Temperature over time.
+- Humidity over time.
+- Rain sensor values over time.
+
+Implement automatic updates when new authenticated readings arrive from Node 3.
+
+Rain priority rules:
+
+- DRY: Routine.
+- NORMAL: Routine.
+- HEAVY: HIGH PRIORITY ALERT.
+
+Heavy-rain packets must be scheduled before routine temperature/humidity readings.
+
+Do not claim that the raindrop sensor provides calibrated rainfall in mm/hour.
+
+Allow sensor threshold settings only where appropriate and clearly document the calibration assumptions.
+
+---
+
+# 6. NODE ARCHITECTURE MONITORING
+
+Create a dedicated page for each ESP32 node.
+
+NODE 1 – SENSOR TRANSMITTER
+
+Display:
+- Sensor readings.
+- Packet generation.
+- Packet ID.
+- Priority.
+- Encryption status.
+- Current communication mode.
+- Wi-Fi link health.
+- LoRa fallback status.
+- LittleFS queue.
+- ACK received.
+- Retry count.
+
+NODE 2 – CENTRAL GATEWAY
+
+Display:
+- Received packet IDs.
+- Packet validation status.
+- Duplicate detection.
+- microSD write status.
+- Node 1 ACK status.
+- Node 3 forwarding status.
+- Node 3 pending queue.
+- Network metrics.
+
+NODE 3 – DESTINATION RECEIVER
+
+Display:
+- Incoming packets.
+- Packet validation.
+- AES-GCM authentication.
+- Decryption status.
+- Authenticated readings.
+- LCD display status.
+- ACK sent to Node 2.
+
+Clearly indicate that Node 2 forwards encrypted packets and does not decrypt sensor payloads.
+
+---
+
+# 7. COMMUNICATION MONITORING
+
+This is one of the most important dashboard modules.
+
+Monitor the two communication links independently.
+
+LINK A: NODE 1 → NODE 2
+
+Possible modes:
+- Wi-Fi ACTIVE.
+- LoRa ACTIVE.
+- OFFLINE.
+
+LINK B: NODE 2 → NODE 3
+
+Possible states:
+- CONNECTED.
+- DISCONNECTED.
+- RETRYING.
+
+Display:
+
+- Wi-Fi RSSI in dBm.
+- RSSI variation.
+- Packet loss ratio.
+- ACK latency.
+- Retry count.
+- Queue depth.
+- Active link mode.
+- Recent communication events.
+
+Implement automatic Wi-Fi/LoRa fallback demonstration.
+
+Communication rules:
+
+1. Prefer Wi-Fi when the link is healthy.
+2. Detect poor Wi-Fi using RSSI, recent packet loss, ACK latency and failed attempts.
+3. Use LoRa when Wi-Fi is poor or unavailable.
+4. Use hysteresis to avoid rapid switching between Wi-Fi and LoRa.
+5. If neither link receives a valid ACK, retain the packet in LittleFS.
+6. Retry pending packets when connectivity returns.
+
+IMPORTANT:
+A Wi-Fi connection alone does not prove successful packet delivery. Delivery must be confirmed using a matching packet-ID ACK.
+
+Create an interactive communication timeline showing:
+- Wi-Fi packet transmission.
+- Wi-Fi failure.
+- LoRa fallback.
+- ACK received.
+- Retry.
+- Offline queueing.
+- Link recovery.
+
+---
+
+# 8. PACKET MANAGEMENT
+
+Create a packet management page with a searchable and filterable packet table.
+
+Columns:
+
+- Packet ID.
+- Sequence Number.
+- Source Node.
+- Destination Node.
+- Priority.
+- Communication Mode.
+- Encryption Status.
+- Gateway Status.
+- Destination Status.
+- Retry Count.
+- Creation Timestamp.
+- Last Update.
+
+Packet statuses:
+
+- CREATED.
+- ENCRYPTED.
+- PENDING.
+- TRANSMITTED.
+- GATEWAY_STORED.
+- FORWARDED.
+- DELIVERED.
+- RETRYING.
+- REJECTED.
+
+Create separate views for:
+
+- Node 1 pending queue.
+- Node 2 received packets.
+- Node 2 pending Node 3 queue.
+- Node 3 successfully delivered packets.
+
+Provide filters for packet priority, status, node and communication mode.
+
+Implement packet details inspection.
+
+Display packet metadata:
+- Protocol version.
+- Source.
+- Destination.
+- Packet ID.
+- Priority.
+- Nonce.
+- Ciphertext.
+- Authentication tag.
+- AAD, if configured.
+
+Never expose the AES secret key.
+
+---
+
+# 9. STORE-AND-FORWARD STORAGE MANAGEMENT
+
+Implement the storage management module.
+
+NODE 1 – LITTLEFS
+
+Display:
+- LittleFS status.
+- Number of pending packets.
+- Stored packet IDs.
+- Sequence counter.
+- Delivery state.
+- Storage errors.
+
+NODE 2 – microSD
+
+Display:
+- microSD connection status.
+- Capacity: 16 GB configured capacity.
+- Storage status.
+- Number of encrypted packets stored.
+- Node 3 pending queue count.
+- Delivery status.
+- Storage errors.
+
+Demonstrate persistent storage using the backend database in simulation mode.
+
+Maintain separate logical queues for:
+- Node 1 pending packets.
+- Node 2 received packets.
+- Node 2 Node 3 pending packets.
+
+Implement:
+- Persistent packet storage.
+- Duplicate suppression.
+- Queue recovery after restart.
+- Packet retirement only after matching ACK.
+
+Do not mark a packet delivered merely because it was transmitted.
+
+In live hardware mode, report actual LittleFS and microSD status only when received from the corresponding ESP32 node.
+
+---
+
+# 10. END-TO-END SECURITY MONITORING
+
+Implement AES-128-GCM security according to the PDF.
+
+Node 1:
+- Serializes sensor payload.
+- Encrypts using AES-128-GCM.
+- Generates a unique 96-bit nonce for every new encryption operation.
+- Creates an authentication tag.
+- Sends encrypted packet envelope.
+
+Node 2:
+- Receives encrypted packet.
+- Validates packet metadata.
+- Stores ciphertext, nonce and tag.
+- Forwards ciphertext.
+- Does not decrypt sensor data.
+
+Node 3:
+- Validates packet envelope.
+- Verifies AES-GCM authentication tag.
+- Decrypts only after successful authentication.
+- Rejects invalid packets.
+- Does not display invalid plaintext.
+- Sends successful ACK only after authentication and acceptance.
+
+Implement a security monitoring page displaying:
+
+- Total encrypted packets.
+- Successful authentication count.
+- Failed authentication count.
+- Rejected packets.
+- Unique nonce verification status.
+- Authentication tag verification.
+- Encryption endpoint.
+- Decryption endpoint.
+
+Create a security event log.
+
+Provide a demonstration button to simulate ciphertext/tag tampering.
+
+When tampering is detected:
+- AES-GCM verification must fail.
+- Packet must be rejected.
+- No plaintext reading must be displayed as valid.
+- No successful destination ACK must be sent.
+- A security alert must appear.
+
+IMPORTANT:
+Never store or display secret AES keys in the frontend, logs or database.
+
+Use a configurable secure key provision mechanism. Do not use a publicly shared example key in production.
+
+Retries must resend the exact same encrypted packet bytes. Never re-encrypt a packet using the same key/nonce combination.
+
+---
+
+# 11. MACHINE LEARNING ANALYTICS
+
+Create two independent ML modules.
+
+A. NETWORK QUALITY ANALYSIS
+
+Use a Random Forest Classifier.
+
+Input features:
+- RSSI.
+- RSSI variation.
+- Packet loss ratio.
+- ACK latency.
+- Retry count.
+- Queue depth.
+
+Output classes:
+- GOOD.
+- MODERATE.
+- POOR.
+
+Display:
+- Predicted network quality.
+- Confidence/probability.
+- Packet delivery risk score.
+- Feature importance.
+- Historical network quality.
+- Model status.
+
+Implement a rule-based baseline and compare it with the ML model.
+
+The model must be trained and evaluated using appropriate data.
+
+Do not claim high model accuracy without actual evaluation.
+
+If there is insufficient real training data:
+- Display DEMO/SIMULATED MODEL status.
+- Use a clearly identified synthetic dataset for demonstration.
+- Do not present synthetic evaluation metrics as real-world results.
+
+B. SENSOR ANOMALY DETECTION
+
+Use Isolation Forest.
+
+Input features:
+- Temperature.
+- Humidity.
+- Raw rain sensor value.
+- Change from recent readings.
+- Time between samples.
+
+Outputs:
+- NORMAL.
+- ANOMALY / NEEDS CHECK.
+
+Display:
+- Anomaly score.
+- Anomaly status.
+- Sensor reading history.
+- Anomaly event log.
+
+Do not automatically discard anomalous readings.
+
+Preserve original readings and show warnings for review.
+
+IMPORTANT:
+Heavy-rain priority must always be enforced using deterministic rules, independently of ML predictions.
+
+ML is advisory only. It must never replace:
+- ACK verification.
+- Packet authentication.
+- Retry logic.
+- Storage guarantees.
+- Deterministic heavy-rain priority.
+
+Both ML modules must continue to be optional. If ML is unavailable, packet delivery must continue.
+
+---
+
+# 12. HISTORICAL DATA AND ANALYTICS
+
+Create an interactive historical analytics page.
+
+Include:
+- Temperature history.
+- Humidity history.
+- Rain sensor history.
+- Packet transmission history.
+- Packet delivery success.
+- Packet loss.
+- ACK latency.
+- Retry statistics.
+- Queue depth.
+- Wi-Fi/LoRa switching history.
+- Security events.
+- Anomaly events.
+
+Use date and time filters.
+
+Provide daily, hourly and custom historical views where data is available.
+
+Store all records in SQLite.
+
+Include CSV export for sensor history, network metrics, packet records and security events.
+
+Do not generate fake historical records in live hardware mode.
+
+---
+
+# 13. SYSTEM TESTING AND LIVE DEMONSTRATION
+
+This module is CRITICAL.
+
+Create a complete interactive system testing page based on the eight test cases in page 12 of the reference PDF.
+
+Provide the following test scenarios:
+
+TEST 1: NORMAL WI-FI COMMUNICATION
+- Node 1 Wi-Fi ON.
+- Node 1 LoRa READY.
+- Node 2 → Node 3 Wi-Fi ON.
+- Packet transmitted to Node 2.
+- Gateway stores packet.
+- Node 1 receives matching ACK.
+- Node 2 forwards encrypted packet.
+- Node 3 authenticates and decrypts.
+- Node 3 sends ACK.
+- Final result: DELIVERED.
+
+TEST 2: WI-FI FAILURE WITH LORA FALLBACK
+- Node 1 Wi-Fi OFF.
+- Node 1 LoRa ON.
+- Node 2 → Node 3 Wi-Fi ON.
+- Packet transmitted over LoRa.
+- Gateway stores packet.
+- Gateway sends LoRa ACK.
+- Node 2 forwards to Node 3.
+- Final result: DELIVERED.
+
+TEST 3: BOTH NODE 1 LINKS UNAVAILABLE
+- Node 1 Wi-Fi OFF.
+- Node 1 LoRa OFF.
+- Node 1 stores packet in LittleFS.
+- Sensor sampling continues.
+- Restore communication.
+- Pending packet is transmitted.
+- Matching ACK is received.
+- Final result: DELIVERED AFTER RECOVERY.
+
+TEST 4: NODE 3 UNAVAILABLE
+- Node 1 → Node 2 link ON.
+- Node 2 → Node 3 link OFF.
+- Node 2 stores packet on microSD.
+- Node 1 receives storage ACK.
+- Node 3 pending queue increases.
+- Restore Node 3 connectivity.
+- Packet is forwarded.
+- Node 3 sends ACK.
+- Final result: DELIVERED AFTER RECOVERY.
+
+TEST 5: ALL COMMUNICATION LINKS UNAVAILABLE
+- Node 1 → Node 2 Wi-Fi OFF.
+- Node 1 → Node 2 LoRa OFF.
+- Node 2 → Node 3 Wi-Fi OFF.
+- Node 1 retains packets in LittleFS.
+- Node 2 retains previously received packets in microSD.
+- No packet is falsely marked delivered.
+- Final result: PENDING / STORED SAFELY.
+
+TEST 6: ACK LOSS AND DUPLICATE DETECTION
+- Send a packet.
+- Simulate lost ACK.
+- Retransmit the same packet ID and ciphertext.
+- Node 2 detects duplicate.
+- Node 2 does not store/process a second copy.
+- Node 2 resends the matching ACK.
+- Final result: DUPLICATE SUPPRESSED.
+
+TEST 7: AES-GCM TAMPERING
+- Send encrypted packet.
+- Modify ciphertext or authentication tag.
+- Node 3 verifies the authentication tag.
+- Authentication fails.
+- Packet is rejected.
+- No valid plaintext is displayed.
+- No successful destination ACK is sent.
+- Final result: SECURITY REJECTION.
+
+TEST 8: NODE RESTART WITH PENDING PACKETS
+- Generate pending packets.
+- Simulate node restart.
+- Recover persistent queues.
+- Restore packet IDs and delivery state.
+- Resume transmission.
+- Final result: PENDING PACKETS RECOVERED.
+
+For each test display:
+- Test number.
+- Test name.
+- Initial link configuration.
+- Execution progress.
+- Packet movement.
+- ACK status.
+- Storage status.
+- Security status, where relevant.
+- Expected result.
+- Actual result.
+- PASS / FAIL.
+
+Implement each test as an actual state-changing simulation, not just a text description.
+
+Provide:
+- Run Test.
+- Reset Test.
+- Run All Tests.
+
+Each test must operate on the backend and persist its resulting records.
+
+Show an overall test summary.
+
+---
+
+# 14. SIMULATION MODE
+
+The dashboard must be demonstrable even without physical ESP32 hardware.
+
+Implement a dedicated Simulation Mode.
+
+Provide:
+- Start Simulation.
+- Pause Simulation.
+- Resume Simulation.
+- Reset Simulation.
+- Adjustable simulation speed.
+- Automatic sensor readings.
+- Packet generation.
+- Priority handling.
+- Wi-Fi and LoRa link states.
+- ACK generation.
+- Retry mechanism.
+- Queue updates.
+- Packet forwarding.
+- AES-GCM encryption and verification.
+- Network ML predictions.
+- Sensor anomaly detection.
+
+Generate realistic sample temperature, humidity and rain sensor readings.
+
+Use deterministic logic for heavy-rain packet priority.
+
+Create realistic communication failures and recoveries.
+
+Make packets visibly travel through Node 1 → Node 2 → Node 3.
+
+Allow the user to manually:
+- Disable Node 1 Wi-Fi.
+- Enable/disable Node 1 LoRa.
+- Disable Node 2 → Node 3 Wi-Fi.
+- Restore connections.
+- Drop an ACK.
+- Trigger duplicate transmission.
+- Trigger packet tampering.
+- Restart a node.
+- Generate a heavy-rain alert.
+- Generate routine sensor readings.
+
+Every simulation control must change the actual backend simulation state and dashboard values.
+
+Use a clear DEMO MODE label whenever simulated data is being displayed.
+
+---
+
+# 15. LIVE HARDWARE MODE
+
+Create a separate Live Hardware Mode.
+
+The ESP32 firmware will send data to Flask endpoints.
+
+Implement API integration for:
+
+NODE 1:
+- Sensor data.
+- Packet creation.
+- Priority.
+- Communication mode.
+- Wi-Fi RSSI.
+- Retry count.
+- LittleFS queue count.
+- ACK events.
+
+NODE 2:
+- Packet received.
+- Packet stored.
+- Duplicate detection.
+- microSD status.
+- Node 3 pending queue.
+- Network metrics.
+- Forwarding events.
+
+NODE 3:
+- Packet received.
+- Authentication result.
+- Decrypted sensor reading.
+- LCD status.
+- ACK status.
+
+Use heartbeat timestamps to detect unavailable nodes.
+
+Clearly distinguish:
+- ONLINE.
+- OFFLINE.
+- STALE DATA.
+
+Do not fabricate live hardware data.
+
+If a hardware node has not connected, show NOT CONNECTED.
+
+Simulation Mode and Live Hardware Mode must never mix their records or falsely report simulation data as hardware data.
+
+---
+
+# 16. FLASK BACKEND API
+
+Build a complete Flask REST API.
+
+Create appropriate endpoints, including:
+
+GET /api/health
+GET /api/status
+GET /api/nodes
+GET /api/sensors/latest
+GET /api/sensors/history
+POST /api/node1/sensor-data
+POST /api/node1/packet
+POST /api/node1/ack
+POST /api/node2/packet-received
+POST /api/node2/network-metrics
+POST /api/node2/storage-status
+POST /api/node2/forward
+POST /api/node3/packet-received
+POST /api/node3/authentication
+POST /api/node3/ack
+GET /api/packets
+GET /api/packets/pending
+GET /api/queues
+GET /api/storage
+GET /api/security
+GET /api/ml/network
+GET /api/ml/anomaly
+GET /api/history
+GET /api/alerts
+GET /api/tests
+POST /api/tests/run
+POST /api/simulation/start
+POST /api/simulation/pause
+POST /api/simulation/resume
+POST /api/simulation/reset
+POST /api/simulation/control
+GET /api/simulation/status
+GET /api/export/csv
+
+You may add supporting endpoints where required.
+
+Implement:
+- Input validation.
+- Consistent JSON responses.
+- HTTP status codes.
+- Error handling.
+- Logging.
+- Timestamps.
+- Database transactions.
+- Duplicate detection.
+- Packet state validation.
+
+Use CORS only as needed for the local frontend/backend integration.
+
+Do not leave endpoints as empty placeholders.
+
+The frontend must use the actual API responses.
+
+---
+
+# 17. SQLITE DATABASE
+
+Create a persistent SQLite database.
+
+Implement suitable tables:
+
+1. nodes
+2. sensor_readings
+3. packets
+4. acknowledgements
+5. network_metrics
+6. storage_status
+7. security_events
+8. ml_predictions
+9. anomaly_events
+10. system_alerts
+11. test_results
+12. simulation_state
+13. communication_events
+
+Include suitable indexes and timestamps.
+
+Maintain packet lifecycle and delivery state correctly.
+
+Use database transactions when updating packet and acknowledgement states.
+
+Never mark a packet as delivered to Node 3 based only on Node 1's gateway ACK.
+
+---
+
+# 18. ALERTS AND NOTIFICATIONS
+
+Create an alert management module.
+
+Generate alerts for:
+- Heavy rain detected.
+- Wi-Fi unavailable.
+- LoRa fallback activated.
+- All Node 1 communication unavailable.
+- Node 3 disconnected.
+- Packet queue increasing.
+- Storage error.
+- ACK timeout.
+- Packet loss increase.
+- Authentication failure.
+- Sensor anomaly.
+- Node offline.
+- ML service unavailable.
+
+Include:
+- Alert severity.
+- Alert message.
+- Timestamp.
+- Related node.
+- Read/unread state.
+
+Provide an alert history.
+
+---
+
+# 19. SETTINGS AND API STATUS
+
+Provide a configuration page for:
+
+- Backend connection status.
+- API health.
+- Database status.
+- ML model status.
+- Simulation/Hardware mode.
+- Communication thresholds.
+- ACK timeout.
+- Retry limit.
+- Hysteresis settings.
+- Sensor sampling interval.
+- Rain classification thresholds.
+
+Use safe validation.
+
+Do not expose AES secret keys.
+
+Do not claim hardware settings have changed unless the actual ESP32 has acknowledged the configuration.
+
+---
+
+# 20. BACKEND AND FRONTEND INTEGRATION
+
+This requirement is mandatory.
+
+The application must be fully integrated.
+
+Implement:
+- React frontend.
+- Flask backend.
+- SQLite persistence.
+- REST API communication.
+- Automatic live dashboard refresh.
+- Error and loading states.
+- Persistent packet queues.
+- Working simulation controls.
+- Functional historical charts.
+- Working CSV downloads.
+- Actual ML inference.
+- Functional system test cases.
+
+The frontend must not use hardcoded dashboard values as its main data source.
+
+Use backend API responses.
+
+Implement automatic refresh using polling or another reliable mechanism.
+
+Ensure that all charts update from database records.
+
+If the backend is unavailable, show a clear backend connection error instead of silently displaying fake data.
+
+---
+
+# 21. PROJECT FOLDER STRUCTURE
+
+Create a clean and maintainable project structure:
+
+RESILIENT_IOT_DASHBOARD/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   ├── charts/
+│   │   ├── types/
+│   │   └── App.tsx
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── backend/
+│   ├── app.py
+│   ├── database.py
+│   ├── models.py
+│   ├── packet_manager.py
+│   ├── communication_manager.py
+│   ├── storage_manager.py
+│   ├── security_manager.py
+│   ├── simulation.py
+│   ├── ml_network.py
+│   ├── ml_anomaly.py
+│   ├── test_manager.py
+│   └── requirements.txt
+│
+├── data/
+│   ├── sensor_history/
+│   ├── network_history/
+│   └── models/
+│
+├── README.md
+└── run instructions
+
+You may improve this structure while maintaining separation of responsibilities.
+
+---
+
+# 22. FUNCTIONAL ACCEPTANCE CRITERIA
+
+Before declaring the application complete, verify:
+
+1. Frontend starts successfully.
+2. Flask backend starts successfully.
+3. React connects to Flask.
+4. SQLite database initializes correctly.
+5. Simulation generates sensor readings.
+6. Heavy-rain packets receive high priority.
+7. Wi-Fi failure triggers LoRa fallback.
+8. Missing ACK causes retries.
+9. Missing ACK results in local queueing when all links fail.
+10. Node 2 stores packets before acknowledging Node 1.
+11. Node 2 forwards encrypted packets.
+12. Node 3 authenticates and decrypts packets.
+13. Invalid AES-GCM authentication is rejected.
+14. Lost ACKs result in duplicate suppression.
+15. Node 3 offline packets remain pending at Node 2.
+16. Pending packets recover after simulated restart.
+17. Network ML returns GOOD / MODERATE / POOR.
+18. Sensor ML flags anomalies without deleting readings.
+19. Dashboard displays live and historical data.
+20. CSV export works.
+21. All eight system test cases execute correctly.
+22. Simulation data and hardware data remain separate.
+23. Dashboard failure does not affect the simulated or hardware communication logic.
+24. No buttons or navigation items are nonfunctional placeholders.
+
+---
+
+# 23. EXECUTION AND FINAL DELIVERY
+
+Do not stop after generating the initial dashboard design.
+
+Build the actual application and all required source files.
+
+First inspect the complete PDF, then plan the architecture, then implement the backend, frontend, database, ML modules and simulation engine.
+
+After implementation:
+
+- Start the backend.
+- Start the frontend.
+- Verify API communication.
+- Execute all eight test scenarios.
+- Fix errors.
+- Verify database persistence.
+- Verify packet lifecycle.
+- Verify security rejection.
+- Verify dashboard updates.
+- Verify CSV export.
+
+Provide a complete README with:
+- Required software.
+- Installation instructions.
+- Dependency installation.
+- Backend startup command.
+- Frontend startup command.
+- Localhost URL.
+- API documentation.
+- Hardware integration instructions.
+- Simulation mode instructions.
+- Live hardware mode instructions.
+
+Provide all source code and configuration files.
+
+Do not return only code snippets or an architectural explanation.
+
+The final deliverable must be a runnable, fully integrated IoT dashboard project.
+
+If a feature requires actual ESP32 hardware, implement the real hardware API integration and a clearly labelled simulation equivalent. Never claim that a physical hardware test has passed when only a simulation was executed.
+
+MOST IMPORTANT:
+
+The dashboard must accurately demonstrate the complete Resilient Store-and-Forward IoT Communication System described in the uploaded PDF.
+
+Do not omit any major feature.
+
+Prioritize functional correctness, reliability, security, persistent storage, accurate packet delivery states, and complete end-to-end integration over visual appearance alone.

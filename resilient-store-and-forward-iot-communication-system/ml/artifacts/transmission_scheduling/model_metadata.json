@@ -1,0 +1,144 @@
+{
+  "model_type": "TRANSMISSION_SCHEDULING",
+  "algorithm": "RandomForestRegressor",
+  "model_version": "rf-reg-sim-v1.0.0",
+  "target_link": "NODE2_NODE3_WIFI",
+  "data_source": "SIMULATED",
+  "dataset_version": "v1.0.0-sim",
+  "feature_names": [
+    "rssi",
+    "rssi_variation",
+    "packet_loss_ratio",
+    "ack_latency_ms",
+    "retry_count",
+    "queue_depth",
+    "wifi_availability_history",
+    "connection_duration",
+    "hour",
+    "day_of_week"
+  ],
+  "suitable_opportunity_definition": {
+    "target_link": "NODE2_NODE3_WIFI",
+    "required_link_status": "CONNECTED",
+    "min_rssi_dbm": -78.0,
+    "max_packet_loss_ratio": 0.2,
+    "max_ack_latency_ms": 350.0,
+    "min_consecutive_healthy_samples": 2,
+    "censoring_horizon_seconds": 180.0,
+    "description": "A suitable Node 2 -> Node 3 Wi-Fi transmission opportunity begins at the earliest time t' >= t where node2_to_node3_status == 'CONNECTED' and at least 2 consecutive observations satisfy rssi > -78 dBm, packet_loss_ratio < 0.20, and ack_latency_ms <= 350 ms. If no such opportunity occurs within 180 seconds or before session termination, the observation is marked right-censored (observation_censored=1, target=null)."
+  },
+  "data_summary": {
+    "initial_rows": 4496,
+    "valid_rows": 4496,
+    "uncensored_rows": 3540,
+    "censored_rows": 956,
+    "censored_rate": 0.2126,
+    "sessions_total": 40,
+    "sessions_uncensored": 37,
+    "target_stats_uncensored": {
+      "mean": 20.515,
+      "median": 0.0,
+      "p90": 70.985,
+      "max": 179.98
+    }
+  },
+  "training_config": {
+    "seed": 42,
+    "cv_strategy": "GroupKFold(n_splits=5) by session_num (uncensored rows only)",
+    "best_params": {
+      "reg__max_depth": 8,
+      "reg__max_features": "sqrt",
+      "reg__min_samples_leaf": 6,
+      "reg__n_estimators": 200
+    },
+    "best_cv_mae": 14.269,
+    "train_uncensored_rows": 2612,
+    "test_uncensored_rows": 928,
+    "test_censored_rows_excluded_from_mae": 193
+  },
+  "evaluation": {
+    "model_type": "TRANSMISSION_SCHEDULING",
+    "link_hop": "NODE2_NODE3_WIFI",
+    "data_source": "SIMULATED",
+    "model_version": "rf-reg-sim-v1.0.0",
+    "mae": 19.114,
+    "rmse": 33.624,
+    "r2": 0.3777,
+    "sample_count": 928,
+    "censored_count": 193,
+    "split_method": "Session-grouped holdout (Sessions 1-30 GroupKFold-5 CV / Sessions 31-40 unseen test; uncensored targets only)",
+    "evaluated_at": "2026-11-21T21:55:17.267713+00:00",
+    "note": "Evaluated strictly on unseen uncensored SIMULATED test observations. Censored rows were excluded rather than fabricated. Advisory only."
+  },
+  "error_analysis": {
+    "median_abs_error_s": 7.302,
+    "p90_abs_error_s": 54.352,
+    "by_link_status": {
+      "CONNECTED": {
+        "count": 754,
+        "mae": 14.395,
+        "rmse": 29.371
+      },
+      "DISCONNECTED": {
+        "count": 174,
+        "mae": 39.56,
+        "rmse": 47.872
+      }
+    }
+  },
+  "baseline_comparison": {
+    "baseline_name": "Training-Set Conditional Median by Link Status (CONNECTED/DISCONNECTED)",
+    "cond_medians_fit_on_train": {
+      "CONNECTED": 0.0,
+      "DISCONNECTED": 61.22
+    },
+    "mae": 19.98,
+    "rmse": 40.534,
+    "r2": 0.0956,
+    "mae_improvement_s": 0.867,
+    "rmse_improvement_s": 6.909
+  },
+  "feature_importances": [
+    {
+      "feature": "rssi",
+      "importance": 0.2676
+    },
+    {
+      "feature": "packet_loss_ratio",
+      "importance": 0.1708
+    },
+    {
+      "feature": "ack_latency_ms",
+      "importance": 0.1501
+    },
+    {
+      "feature": "wifi_availability_history",
+      "importance": 0.1002
+    },
+    {
+      "feature": "queue_depth",
+      "importance": 0.0924
+    },
+    {
+      "feature": "retry_count",
+      "importance": 0.086
+    },
+    {
+      "feature": "hour",
+      "importance": 0.0458
+    },
+    {
+      "feature": "connection_duration",
+      "importance": 0.0445
+    },
+    {
+      "feature": "rssi_variation",
+      "importance": 0.0248
+    },
+    {
+      "feature": "day_of_week",
+      "importance": 0.0176
+    }
+  ],
+  "trained_at": "2026-11-21T21:55:17.267713+00:00"
+}
