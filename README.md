@@ -45,3 +45,5 @@ how it works : 1. Input: Node 1 collects rain, soil-moisture, and DHT11 readings
 6. Storage-aware queue management
 7. ML-based advisory network-quality and transmission-opportunity analysis
 8. Real-time dashboard monitoring
+
+https://resilient-store-and-forward-ml-prediction.ai.studio/   .Dashboard link
